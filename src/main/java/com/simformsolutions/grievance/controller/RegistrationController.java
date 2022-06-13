@@ -8,8 +8,14 @@ import com.simformsolutions.grievance.service.ComplainService;
 import com.simformsolutions.grievance.service.RatingService;
 import com.simformsolutions.grievance.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.validation.BindException;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class RegistrationController {
@@ -17,19 +23,10 @@ public class RegistrationController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    ComplainService complainService;
-
-    @Autowired
-    RatingService ratingService;
-
-    @Autowired
-    RatingRepository ratingRepository;
-
     @GetMapping("/register")
     public String getRegister()
     {
-        return "register";
+        return "signUp";
     }
 
     @PostMapping("/register")
@@ -37,22 +34,6 @@ public class RegistrationController {
     public String postRegister(@ModelAttribute User user)
     {
         userService.saveUser(user);
-        return "ok";
-    }
-
-    @PostMapping("/complain")
-    @ResponseBody
-    public String postRegister(@ModelAttribute Complain complain,@RequestParam("complainerId") long id )
-    {
-        complainService.saveComplain(complain,id);
-        return "ok";
-    }
-
-    @PostMapping("/rating")
-    @ResponseBody
-    public String postRating(@ModelAttribute Rating rating, @RequestParam("complainId") long id )
-    {
-        ratingService.saveRating(rating,id);
         return "ok";
     }
 

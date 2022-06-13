@@ -21,7 +21,7 @@ public class Complain {
     private String ward;
     private String description;
     private String photo;
-    private String category;
+    private String categoryId;
     private int status;
 
     @OneToOne(cascade = CascadeType.ALL)
