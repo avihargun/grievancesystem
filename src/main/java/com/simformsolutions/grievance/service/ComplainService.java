@@ -7,6 +7,8 @@ import com.simformsolutions.grievance.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class ComplainService {
 
@@ -16,10 +18,10 @@ public class ComplainService {
     @Autowired
     private UserRepository userRepository;
 
-    public void saveComplain(Complain complain,long id)
+    public String saveComplain(Complain complain,long id)
     {
         User user= userRepository.findById(id).orElseThrow();
         user.getComplains().add(complain);
-        userRepository.save(user);
+        return userRepository.save(user).toString();
     }
 }
