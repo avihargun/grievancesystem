@@ -11,9 +11,9 @@
     <div class="container">
         <h1>Login</h1>
     <form action="#" method="POST">
-        <input type="text" placeholder="Email" class="field">
-        <input type="password" placeholder="password" class="field">
-        <input type="submit" value="login" class="btn">
+        <input type="text" name=email placeholder="Email" class="field">
+        <input type="password" name=password placeholder="password" class="field">
+        <input type="submit"  value="login" class="btn">
     </form>
     <div class="pass-link">
         <a href="/register" >Not Registered?</a>

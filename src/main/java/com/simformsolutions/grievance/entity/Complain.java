@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+
 
 @Data
 @AllArgsConstructor
@@ -23,6 +23,8 @@ public class Complain {
     private String photo;
     private String categoryId;
     private int status;
+    @Transient
+    private String category;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="ratingId")

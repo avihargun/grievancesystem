@@ -1,28 +1,31 @@
 package com.simformsolutions.grievance.controller;
 
-import com.simformsolutions.grievance.entity.Complain;
-import com.simformsolutions.grievance.entity.Rating;
 import com.simformsolutions.grievance.entity.User;
-import com.simformsolutions.grievance.repository.RatingRepository;
-import com.simformsolutions.grievance.service.ComplainService;
-import com.simformsolutions.grievance.service.RatingService;
 import com.simformsolutions.grievance.service.UserService;
+import com.simformsolutions.grievance.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.validation.BindException;
 
-import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 
 @Controller
 public class RegistrationController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @GetMapping("/register")
     public String getRegister()
@@ -31,10 +34,10 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    @ResponseBody
-    public ResponseEntity<Object> postRegister(@ModelAttribute User user)
+    public String postRegister(@ModelAttribute User user)
     {
-        return userService.saveUser(user);
+        userService.saveUser(user);
+        return "redirect:" +"/login";
 
     }
 
@@ -45,11 +48,27 @@ public class RegistrationController {
     }
 
     @PostMapping("/login")
-    @ResponseBody
-    public ResponseEntity<Object> postLogin(@ModelAttribute User user)
+    public String postLogin(@ModelAttribute User user, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception
     {
-        return userService.saveUser(user);
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
+            );
+        } catch (Exception ex) {
+            throw new Exception("inavalid username/password");
+
+
+        }
+
+        System.out.println(jwtUtil.generateToken(user.getEmail()));
+
+        Cookie cookie = new Cookie("token",jwtUtil.generateToken(user.getEmail()));
+        cookie.setMaxAge(60 * 60 * 10);
+        httpServletResponse.addCookie(cookie);
+
+        return "redirect:" +"/dashboard";
 
     }
+
 
 }

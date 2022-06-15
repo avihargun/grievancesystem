@@ -21,6 +21,7 @@ public class ComplainService {
     public String saveComplain(Complain complain,long id)
     {
         User user= userRepository.findById(id).orElseThrow();
+        complain.setStatus(0);
         user.getComplains().add(complain);
         return userRepository.save(user).toString();
     }

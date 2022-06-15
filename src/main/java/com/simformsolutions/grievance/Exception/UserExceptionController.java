@@ -14,7 +14,7 @@ public class UserExceptionController {
 
     @ExceptionHandler(value = UserAlreadyExist.class)
     public ResponseEntity<Object> exception(UserAlreadyExist exception) {
-        return new ResponseEntity<>("Product not found", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("EmailId Already Exist", HttpStatus.BAD_REQUEST);
     }
 
 }

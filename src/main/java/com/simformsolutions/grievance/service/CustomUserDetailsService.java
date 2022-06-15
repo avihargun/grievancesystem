@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import org.springframework.security.core.userdetails.User;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -21,6 +22,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         com.simformsolutions.grievance.entity.User user = userRepository.findByEmail(email);
 
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
+            return new User(user.getEmail(), user.getPassword(), new ArrayList<>());
         }
 }
