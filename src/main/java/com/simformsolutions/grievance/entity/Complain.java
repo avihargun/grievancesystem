@@ -1,5 +1,6 @@
 package com.simformsolutions.grievance.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,12 @@ public class Complain {
     private String photo;
     private long categoryId;
     private int status;
+
+    @JsonIgnore
     @Transient
     private String category;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="ratingId")
     private Rating rating;
