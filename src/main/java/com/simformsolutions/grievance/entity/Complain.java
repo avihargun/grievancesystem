@@ -21,7 +21,7 @@ public class Complain {
     private String ward;
     private String description;
     private String photo;
-    private String categoryId;
+    private long categoryId;
     private int status;
     @Transient
     private String category;

@@ -4,7 +4,6 @@ import com.simformsolutions.grievance.entity.User;
 import com.simformsolutions.grievance.service.UserService;
 import com.simformsolutions.grievance.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -60,8 +59,6 @@ public class RegistrationController {
 
         }
 
-        System.out.println(jwtUtil.generateToken(user.getEmail()));
-
         Cookie cookie = new Cookie("token",jwtUtil.generateToken(user.getEmail()));
         cookie.setMaxAge(60 * 60 * 10);
         httpServletResponse.addCookie(cookie);
@@ -69,6 +66,5 @@ public class RegistrationController {
         return "redirect:" +"/dashboard";
 
     }
-
 
 }
