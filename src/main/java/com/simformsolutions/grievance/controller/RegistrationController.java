@@ -47,14 +47,14 @@ public class RegistrationController {
     }
 
     @PostMapping("/login")
-    public String postLogin(@ModelAttribute User user, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception
+    public String postLogin(@ModelAttribute User user, HttpServletResponse httpServletResponse) throws Exception
     {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
             );
         } catch (Exception ex) {
-            throw new Exception("inavalid username/password");
+            throw new Exception("Invalid username/password");
 
 
         }

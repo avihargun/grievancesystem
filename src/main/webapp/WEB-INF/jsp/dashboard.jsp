@@ -61,10 +61,6 @@
                             <c:forEach var="category" items="${categories}">
                                 <option>${category.categoryName}</option>
                             </c:forEach>
-
-
-                            <option>Jwellery</option>
-                            <option>Vehicales </option>
                         </select>
 
 

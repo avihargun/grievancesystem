@@ -16,11 +16,11 @@ public class RatingService {
     @Autowired
     ComplainRepository complainRepository;
 
-    public void saveRating(Rating rating , long id)
+    public Complain saveRating(Rating rating , long id)
     {
         Complain complain= complainRepository.findById(id).orElseThrow();
         complain.setRating(rating);
-        complainRepository.save(complain);
+        return complainRepository.save(complain);
 
     }
 }

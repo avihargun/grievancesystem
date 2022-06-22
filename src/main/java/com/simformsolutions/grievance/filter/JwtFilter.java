@@ -43,8 +43,6 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
 
-        //  (String) httpServletRequest.getAttribute("token");
-
         String token = null;
         String userName = null;
 
@@ -56,7 +54,6 @@ public class JwtFilter extends OncePerRequestFilter {
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = service.loadUserByUsername(userName);
-            System.out.println("token check");
             if (jwtUtil.validateToken(token, userDetails)) {
 
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =

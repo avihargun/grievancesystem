@@ -24,7 +24,7 @@ public class ComplainController {
 
     @PostMapping("/complain")
     @ResponseBody
-    public String postRegisterComplain(@ModelAttribute Complain complain, @RequestParam("complainerId") long id, @RequestParam("img") MultipartFile file1 )
+    public String postRegisterComplain(@ModelAttribute Complain complain, @RequestParam(value = "complainerId",required = false) long id, @RequestParam(value = "img",required = false) MultipartFile file1 )
     {
 
         complainService.saveComplain(complain,id,file1);

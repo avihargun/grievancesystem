@@ -14,9 +14,9 @@ public class CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    public void saveCategory(List<Category> categories)
+    public List<Category> saveCategory(List<Category> categories)
     {
-        categoryRepository.saveAll(categories.stream().
+        return categoryRepository.saveAll(categories.stream().
                 filter(category->!(categoryRepository.existsByCategoryName(category.getCategoryName()))).
                 collect(Collectors.toList()));
     }

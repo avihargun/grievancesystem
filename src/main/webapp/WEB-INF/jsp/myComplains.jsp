@@ -17,7 +17,7 @@
     <ul>
       <li>
         <a href="http://localhost:8080/user/complains">Home</a>
-        <a href="http://localhost:8080/dashboard">Complain</a>
+        <a href="http://localhost:8080/dashboard">Complaint</a>
         <a href="http://localhost:8080/logout">Logout</a>
         <!-- <button class="btn register">Register</button>
         <button class="btn login">Log In</button> -->

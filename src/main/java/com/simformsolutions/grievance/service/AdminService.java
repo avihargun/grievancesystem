@@ -1,6 +1,7 @@
 package com.simformsolutions.grievance.service;
 
 import com.simformsolutions.grievance.entity.Complain;
+import com.simformsolutions.grievance.entity.Rating;
 import com.simformsolutions.grievance.repository.ComplainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ public class AdminService {
     @Autowired
     ComplainRepository complainRepository;
 
+
     public List<Complain> getComplains()
     {
         return complainRepository.findAll();
@@ -27,9 +29,14 @@ public class AdminService {
         if(complain.isPresent())
         {
             complain.get().setStatus(1);
-            return complain.get();
+            return complainRepository.save(complain.get());
         }
         else
             throw new NoSuchElementException();
+    }
+
+    public Rating getRating(long complainId) {
+
+        return complainRepository.findById(complainId).get().getRating();
     }
 }
