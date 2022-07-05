@@ -1,6 +1,6 @@
 package com.simformsolutions.grievance.controller;
 
-import com.simformsolutions.grievance.entity.Rating;
+import com.simformsolutions.grievance.dto.RatingDTO;
 import com.simformsolutions.grievance.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,9 +26,9 @@ public class RatingController {
 
     @PostMapping("/rating")
     @ResponseBody
-    public String postRating(@Valid @ModelAttribute Rating rating, @RequestParam("complainId") int id )
+    public String postRating(@Valid @ModelAttribute RatingDTO ratingDTO, @RequestParam("complainId") int id )
     {
-        ratingService.saveRating(rating,id);
+        ratingService.saveRating(ratingDTO,id);
 
         return "success";
     }

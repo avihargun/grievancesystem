@@ -1,7 +1,5 @@
 package com.simformsolutions.grievance;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.simformsolutions.grievance.entity.Category;
 import com.simformsolutions.grievance.repository.CategoryRepository;
 import com.simformsolutions.grievance.service.UserService;
@@ -14,23 +12,16 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
 @SpringBootTest
-public class DashboardControllerTest {
+class DashboardControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
-    ObjectMapper objectMapper=new ObjectMapper();
-    ObjectWriter objectWriter=objectMapper.writer();
-
     @MockBean
     private CategoryRepository categoryRepository;
 
@@ -40,7 +31,7 @@ public class DashboardControllerTest {
     Category category=new Category(1L,"Cat");
 
     @Test
-    public void getDashboardTest() throws Exception {
+    void getDashboardTest() throws Exception {
 
         List<Category> records=new ArrayList<>(Arrays.asList(category));
         Mockito.when(categoryRepository.findAll()).thenReturn(records);

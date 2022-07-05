@@ -1,5 +1,6 @@
-package com.simformsolutions.grievance.Exception;
+package com.simformsolutions.grievance.exception;
 
+import com.simformsolutions.grievance.dto.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -17,7 +19,8 @@ public class GlobalException {
 
     @ExceptionHandler(value = NoSuchElementException.class)
     public ResponseEntity<Object> exception(NoSuchElementException exception){
-        return new ResponseEntity<>("ComplainerId Not Exist", HttpStatus.NOT_FOUND);
+        ErrorResponse errorResponse=new ErrorResponse(HttpStatus.NOT_FOUND.name(),exception.getMessage(), LocalDateTime.now(),HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(errorResponse , HttpStatus.NOT_FOUND);
     }
 
 

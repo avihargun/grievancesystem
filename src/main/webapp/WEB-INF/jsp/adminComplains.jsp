@@ -49,11 +49,11 @@
                         <tr>
                             <th scope="row">${status.index+1}</th>
                             <td>${complain.title}</td>
-                            <c:if test="${complain.status ==1}">
+                            <c:if test="${complain.status.ordinal() ==1}">
                                 <td>Solved</td>
                                 <td><button class="btn btn-success">Solved</button> </td>
                             </c:if>
-                            <c:if test="${complain.status==0}">
+                            <c:if test="${complain.status.ordinal()==0}">
                                 <td>Pending</td>
                                 <td> <a href="http://localhost:8080/admin/status/${complain.complainId}"><button
                                             class="btn btn-outline-success ">Change Status</button> </a></td>

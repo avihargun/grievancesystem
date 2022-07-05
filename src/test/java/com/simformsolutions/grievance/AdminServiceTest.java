@@ -1,5 +1,6 @@
 package com.simformsolutions.grievance;
 
+import com.simformsolutions.grievance.dto.enums.Status;
 import com.simformsolutions.grievance.entity.Complain;
 import com.simformsolutions.grievance.entity.Rating;
 import com.simformsolutions.grievance.repository.ComplainRepository;
@@ -12,21 +13,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AdminServiceTest {
+class AdminServiceTest {
 
     @MockBean
     ComplainRepository complainRepository;
@@ -35,10 +33,10 @@ public class AdminServiceTest {
     AdminService adminService;
 
     Rating rating=new Rating(1L,9,"good");
-    Complain record=new Complain(25L,"hello","address","12","description","photo",2L,0,"category",rating);
+    Complain record=new Complain(25L,"hello","address","12","description","photo",2L,Status.PENDING,"category",rating);
 
     @Test
-    public void getAllComplaintsTest(){
+    void getAllComplaintsTest(){
 
         Mockito.when(complainRepository.findAll()).thenReturn(Arrays.asList(record));
 
@@ -48,19 +46,26 @@ public class AdminServiceTest {
     }
 
     @Test
-    public void setComplaintStatusTest() {
+    void setComplaintStatusTest() {
         Mockito.when(complainRepository.findById(25L)).thenReturn(Optional.ofNullable(record));
-        record.setStatus(1);
+        record.setStatus(Status.SOLVED);
         Mockito.when(complainRepository.save(any(Complain.class))).thenReturn(record);
         Complain result=adminService.setComplainStatus(25L);
         assertEquals(record,result);
     }
 
     @Test
-    public void getRatingDetailsTest(){
+    void getRatingDetailsTest(){
         Mockito.when(complainRepository.findById(25L)).thenReturn(Optional.ofNullable(record));
         Rating rating1=adminService.getRating(25L);
         assertEquals(record.getRating(),rating1);
+    }
+
+    @Test
+    void setComplainStatus_FailTest(){
+        Mockito.when(complainRepository.findById(25L)).thenReturn(Optional.empty());
+        assertThrows(NoSuchElementException.class,() -> adminService.setComplainStatus(25L));
+
     }
 
 }

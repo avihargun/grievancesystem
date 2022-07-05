@@ -1,6 +1,6 @@
 package com.simformsolutions.grievance.controller;
 
-import com.simformsolutions.grievance.entity.User;
+import com.simformsolutions.grievance.dto.UserDTO;
 import com.simformsolutions.grievance.service.UserService;
 import com.simformsolutions.grievance.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -33,9 +32,9 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String postRegister(@ModelAttribute User user)
+    public String postRegister(@ModelAttribute UserDTO userDTO)
     {
-        userService.saveUser(user);
+        userService.saveUser(userDTO);
         return "redirect:" +"/login";
 
     }
@@ -47,11 +46,11 @@ public class RegistrationController {
     }
 
     @PostMapping("/login")
-    public String postLogin(@ModelAttribute User user, HttpServletResponse httpServletResponse) throws Exception
+    public String postLogin(@ModelAttribute UserDTO userDTO, HttpServletResponse httpServletResponse) throws Exception
     {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
+                    new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword())
             );
         } catch (Exception ex) {
             throw new Exception("Invalid username/password");
@@ -59,7 +58,7 @@ public class RegistrationController {
 
         }
 
-        Cookie cookie = new Cookie("token",jwtUtil.generateToken(user.getEmail()));
+        Cookie cookie = new Cookie("token",jwtUtil.generateToken(userDTO.getEmail()));
         cookie.setMaxAge(60 * 60 * 10);
         httpServletResponse.addCookie(cookie);
 

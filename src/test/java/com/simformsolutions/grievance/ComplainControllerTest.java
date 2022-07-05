@@ -2,7 +2,8 @@ package com.simformsolutions.grievance;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.simformsolutions.grievance.entity.Complain;
+import com.simformsolutions.grievance.dto.ComplainDTO;
+import com.simformsolutions.grievance.dto.enums.Status;
 import com.simformsolutions.grievance.service.ComplainService;
 import com.simformsolutions.grievance.util.JwtUtil;
 import org.junit.jupiter.api.Test;
@@ -28,14 +29,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ComplainControllerTest {
+class ComplainControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private CommonsMultipartResolver commonsMultipartResolver;
-    private JwtUtil jwtUtil=new JwtUtil();
+    private final JwtUtil jwtUtil=new JwtUtil();
 
     ObjectMapper objectMapper=new ObjectMapper();
     ObjectWriter objectWriter=objectMapper.writer();
@@ -44,11 +45,11 @@ public class ComplainControllerTest {
     ComplainService complainService;
 
     MockMultipartFile first= new MockMultipartFile("data","photo.jpg","text/plain","some.xml".getBytes());
-    Complain record=new Complain(25L,"hello","address","12","description","photo",2L,1,"category",null);
+    ComplainDTO record=new ComplainDTO(25L,"hello","address","12","description","photo",2L, Status.SOLVED,"category",null);
 
     Cookie[] cookie= new Cookie[]{new Cookie("token",jwtUtil.generateToken("mohitdavera@gmail.com"))};
     @Test
-    public void registerComplainTest() throws Exception {
+    void registerComplainTest() throws Exception {
 
 
  //       List<Category> records=new ArrayList<>(Arrays.asList(category));
@@ -66,7 +67,7 @@ public class ComplainControllerTest {
     }
 
     @Test
-    public void getComplainTest() throws Exception{
+    void getComplainTest() throws Exception{
 
         Mockito.when(complainService.getUserComplains(cookie)).thenReturn(Arrays.asList(record));
         mockMvc.perform(MockMvcRequestBuilders

@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -24,11 +24,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         if(email.equals("admin@gmail.com"))
         {
 
-            return new User(user.getEmail(), user.getPassword(), new ArrayList<>( Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"))));
+            return new User(user.getEmail(), user.getPassword(), new ArrayList<>(List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))));
         }
         else
         {
-            return new User(user.getEmail(), user.getPassword(), new ArrayList<>());
+            return new User(user.getEmail(), user.getPassword(), new ArrayList<>(List.of(new SimpleGrantedAuthority("ROLE_USER"))));
         }
 
         }

@@ -43,7 +43,7 @@
             <tr>
                 <th scope="row">${status.index+1}</th>
                 <td>${complain.title}</td>
-                <c:if test="${complain.status ==1}">
+                <c:if test="${complain.status.ordinal() ==1}">
                     <td>Solved</td>
                     <c:if test="${complain.rating.rate >0}">
                         <td>    <button class="btn btn-success">Reviewed</button></td>
@@ -53,7 +53,7 @@
                     </c:if>
                     
                 </c:if>
-              <c:if test="${complain.status==0}">
+              <c:if test="${complain.status.ordinal()==0}">
                 <td>Pending</td>
                 <td>    <button class="btn btn-outline-success disabled">Review</button></td>
               </c:if>  

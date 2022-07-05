@@ -1,6 +1,6 @@
 package com.simformsolutions.grievance.controller;
 
-import com.simformsolutions.grievance.entity.Complain;
+import com.simformsolutions.grievance.dto.ComplainDTO;
 import com.simformsolutions.grievance.repository.ComplainRepository;
 import com.simformsolutions.grievance.service.ComplainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +24,10 @@ public class ComplainController {
 
     @PostMapping("/complain")
     @ResponseBody
-    public String postRegisterComplain(@ModelAttribute Complain complain, @RequestParam(value = "complainerId",required = false) long id, @RequestParam(value = "img",required = false) MultipartFile file1 )
+    public String postRegisterComplain(@ModelAttribute ComplainDTO complainDTO, @RequestParam(value = "complainerId",required = false) long id, @RequestParam(value = "img",required = false) MultipartFile file1 )
     {
 
-        complainService.saveComplain(complain,id,file1);
+        complainService.saveComplain(complainDTO,id,file1);
         return "success";
     }
 

@@ -1,10 +1,13 @@
 package com.simformsolutions.grievance.service;
 
+import com.simformsolutions.grievance.dto.ComplainDTO;
+import com.simformsolutions.grievance.dto.enums.Status;
 import com.simformsolutions.grievance.entity.Complain;
 import com.simformsolutions.grievance.entity.User;
 import com.simformsolutions.grievance.repository.CategoryRepository;
 import com.simformsolutions.grievance.repository.ComplainRepository;
 import com.simformsolutions.grievance.repository.UserRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class ComplainService {
@@ -33,6 +38,9 @@ public class ComplainService {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public static String uploadDirectory = System.getProperty("user.dir") + "/src/main/webapp/complainproof";
 
     @Bean(name = "multipartResolver")
@@ -42,10 +50,13 @@ public class ComplainService {
         return multipartResolver;
     }
 
-    public String saveComplain(Complain complain, long id,MultipartFile file1)
+    public String saveComplain(ComplainDTO complainDTO, long id, MultipartFile file1)
     {
-        User user= userRepository.findById(id).orElseThrow();
-        complain.setStatus(0);
+        User user= userRepository.findById(id).orElseThrow(()->new NoSuchElementException("User not found with Id: "+id));
+        Complain complain=new Complain();
+        modelMapper.map(complainDTO,complain);
+        complain.setStatus(Status.PENDING);
+       // complain.setStatus(0);
         String filename=file1.getOriginalFilename();
         Path fileNameAndPath = Paths.get(uploadDirectory,filename);
 
@@ -61,8 +72,9 @@ public class ComplainService {
         return userRepository.save(user).toString();
     }
 
-    public List<Complain> getUserComplains(Cookie[] cookies)
+    public List<ComplainDTO> getUserComplains(Cookie[] cookies)
     {
-        return userRepository.findById(userService.getComplainerId(cookies)).get().getComplains();
+        return userRepository.findById(userService.getComplainerId(cookies)).get().getComplains()
+                .stream().map(complain -> modelMapper.map(complain,ComplainDTO.class)).collect(Collectors.toList());
     }
 }
