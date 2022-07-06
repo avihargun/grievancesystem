@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Controller
 public class CategoryController {
@@ -19,10 +18,10 @@ public class CategoryController {
 
     @PostMapping("/add")
     @ResponseBody
-    public String postCategory(@RequestParam("categoryName") ArrayList<String> names)
+    public String postCategory(@RequestParam("categoryName") List<String> names)
     {
         categoryService.saveCategory(
-                names.stream().map(Category::new).collect(Collectors.toList())
+                names.stream().map(Category::new).toList()
         );
         return "ok";
     }

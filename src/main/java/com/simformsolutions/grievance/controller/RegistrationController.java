@@ -46,17 +46,11 @@ public class RegistrationController {
     }
 
     @PostMapping("/login")
-    public String postLogin(@ModelAttribute UserDTO userDTO, HttpServletResponse httpServletResponse) throws Exception
+    public String postLogin(@ModelAttribute UserDTO userDTO, HttpServletResponse httpServletResponse)
     {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword())
-            );
-        } catch (Exception ex) {
-            throw new Exception("Invalid username/password");
 
-
-        }
+        authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
 
         Cookie cookie = new Cookie("token",jwtUtil.generateToken(userDTO.getEmail()));
         cookie.setMaxAge(60 * 60 * 10);
